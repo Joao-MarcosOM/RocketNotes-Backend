@@ -5,6 +5,8 @@ const migrationsRun = require("./database/sqlite/migrations");
 
 const AppError = require("./utils/AppError");
 
+const uploadConfig = require("./configs/upload");
+
 const express = require("express");
 // É como se eu tivesse pegando todas as funcionalidades da pasta express e colocando dentro da constante express
 
@@ -13,12 +15,20 @@ const routes = require("./routes")
 
 migrationsRun();
 
+//Aqui eu importo a biblioteca cors que vai habilitar que o frontend consuma as requisições do backend
+const cors = require("cors");
+
 const app = express();
 //Essa variável é criada para que eu inicialize o express para poder utilizar ele
 
+//Aqui eu habilito o meu backend de forma que consiga atender as requisições do frontend
+app.use(cors());
 
 app.use(express.json());
 //Essa linha vai mostrar para a aplicação que estaremos trocando informações em formato JSON
+
+//Aqui estou criando a rota /files que utilizara o método static para enviar arquivos estáticos
+app.use("/files",express.static(uploadConfig.UPLOADS_FOLDER));
 
 app.use(routes)
 
