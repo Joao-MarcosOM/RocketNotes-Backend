@@ -70,7 +70,7 @@ class NotesController{
                 "notes.id",
                 "notes.title",
                 "notes.user_id"
-            ]).where("notes.user_id", user_id).whereLike("notes.title", `%${title}%`).whereIn("name" , filterTags).innerJoin("notes", "notes.id","tags.note_id").orderBy("notes.title")//Aqui eu to realizando a pesquisa apenas de notas que possuem a tag específica caso eu mande ela no query da requisição
+            ]).where("notes.user_id", user_id).whereLike("notes.title", `%${title}%`).whereIn("name" , filterTags).innerJoin("notes", "notes.id","tags.note_id").groupBy("notes.id").orderBy("notes.title")//Aqui eu to realizando a pesquisa apenas de notas que possuem a tag específica caso eu mande ela no query da requisição
 
 
         }else{
